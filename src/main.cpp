@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <piece.hpp>
-#include <tile.hpp>
+#include <board.hpp>
 
 const sf::Vector2f windowDimensions(800, 800);
 
