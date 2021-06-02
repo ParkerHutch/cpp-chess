@@ -1,18 +1,20 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <array>
 #include <tile.hpp>
 
 namespace Chess {
+    class Tile;
+
     class Board {
 
         public:
-        std::vector<Tile*> board;
+        std::array<std::array<Tile, 8>, 8> board;
 
         Board();
-        Board(float width, float height);
-        
+        Board(float sideLength);
+
         void draw();
 
     };

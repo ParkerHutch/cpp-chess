@@ -14,6 +14,6 @@ namespace Chess {
             sf::RectangleShape shape;
 
             Tile();
-            Tile(sf::Vector2f size, sf::Vector2f position, sf::Color color);
+            Tile(float sideLength, int row, int col, sf::Color color);
     };
 }

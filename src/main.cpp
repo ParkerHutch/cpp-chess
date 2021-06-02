@@ -5,10 +5,10 @@ const sf::Vector2f windowDimensions(800, 800);
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(windowDimensions.x, windowDimensions.y),
-                            "Chess++");
+        "Chess++");
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    Chess::Board board(windowDimensions.x / 8);
+    board.draw();
 
     while (window.isOpen()) {
 
@@ -20,7 +20,12 @@ int main() {
         }
 
         window.clear();
-        window.draw(shape);
+        // Draw the chess board
+        for (auto row : board.board) {
+            for (auto tile : row) {
+                window.draw(tile.shape);
+            }
+        }
         window.display();
     }
 
