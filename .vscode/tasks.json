@@ -50,6 +50,9 @@
                 "showReuseMessage": false,
                 "clear": true
             },
+            "options": {
+                "cwd": "${command:cmake.launchTargetDirectory}"
+            },
             "problemMatcher": [],
         },
         /*
