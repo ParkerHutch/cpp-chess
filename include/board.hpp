@@ -15,7 +15,5 @@ namespace Chess {
         Board();
         Board(float sideLength);
 
-        void draw();
-
     };
 }
