@@ -13,9 +13,14 @@ namespace Chess {
     class Tile; // Forward declaration to resolve circular dependency
 
     class Piece {
+        void loadSprite();
+        
+        protected:
+            sf::Texture texture;
         public:
             int pieceType;
             sf::RectangleShape shape;
+            sf::Sprite sprite;
             //const int pieceType;
             // Board * boardPtr = 0; // used to determine move positions
             Tile * tilePtr; // the Tile this piece occupies

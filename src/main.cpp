@@ -27,7 +27,7 @@ int main() {
             for (auto tile : row) {
                 window.draw(tile.shape);
                 if (tile.piecePtr) {
-                    window.draw(tile.piecePtr->shape);
+                    window.draw(tile.piecePtr->sprite);
                 }
             }
         }
