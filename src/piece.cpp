@@ -4,29 +4,31 @@
 
 namespace Chess {
 
-    Piece::Piece() {
+    Piece::Piece(bool color) {
+        this->color = color;
         this->tilePtr = 0;
         this->pieceType = PAWN;
     }
 
-    Piece::Piece(Tile& tile, const int pieceType, const sf::Texture& spriteSheet) {
-        loadSprite(spriteSheet);
+    Piece::Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet) {
+        this->color = color;
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->shape = sf::RectangleShape(sf::Vector2f(80, 80));
         this->shape.setFillColor(sf::Color::Red);
         this->shape.setPosition(tile.shape.getPosition());
         this->pieceType = pieceType;
+        loadSprite(spriteSheet);
     }
 
+    int spriteTextureWidth = 45;
+    int spriteTextureHeight = 45;
     void Piece::loadSprite(const sf::Texture& spriteSheet) {
-        // TODO does texture have to be a class variable?
-        /*
-        if (!texture.loadFromFile("img/chess-sprites.png", sf::IntRect(0, 0, 45, 45))) {
-            ;// TODO handle error here (maybe texture.create(200, 200)?)
-        }*/
+        int leftX = pieceType * spriteTextureWidth;
+        int topY = color * spriteTextureHeight;
         this->sprite.setTexture(spriteSheet); // TODO use sprite.setColor to modify based on team
-        this->sprite.setTextureRect(sf::IntRect(0, 0, 45, 45));
+        this->sprite.setTextureRect(sf::IntRect(leftX, topY, 
+                                    spriteTextureWidth, spriteTextureHeight));
     }
     /*
     std::vector<sf::Vector2f> Piece::getMovePositions() {

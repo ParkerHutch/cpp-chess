@@ -14,7 +14,7 @@ int main() {
 
     Chess::Board board(windowDimensions.x / 8);
     auto tilePtr = &(board.board[0][0]);
-    Chess::Piece pawn (board.board[0][0], Chess::PAWN, spriteSheet);
+    Chess::Piece pawn (board.board[0][0], Chess::WHITE, Chess::PAWN, spriteSheet);
     sf::Sprite mySprite;
     mySprite.setTexture(spriteSheet);
 
