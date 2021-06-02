@@ -8,7 +8,8 @@ int main() {
         "Chess++");
 
     Chess::Board board(windowDimensions.x / 8);
-    board.draw();
+    auto tilePtr = &(board.board[0][0]);
+    Chess::Piece pawn (board.board[0][0], Chess::PAWN);
 
     while (window.isOpen()) {
 
@@ -20,12 +21,17 @@ int main() {
         }
 
         window.clear();
+
         // Draw the chess board
         for (auto row : board.board) {
             for (auto tile : row) {
                 window.draw(tile.shape);
+                if (tile.piecePtr) {
+                    window.draw(tile.piecePtr->shape);
+                }
             }
         }
+        //window.draw(pawn.shape);
         window.display();
     }
 

@@ -11,7 +11,7 @@ namespace Chess {
         shape = sf::RectangleShape(sf::Vector2f(sideLength, sideLength));
         this->shape.setFillColor(color);
         this->shape.setOutlineColor(sf::Color::Black);
-        this->shape.setOutlineThickness(-1);
+        this->shape.setOutlineThickness(2);
         boardPosition = sf::Vector2f(row, col);
     }
 
