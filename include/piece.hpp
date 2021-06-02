@@ -26,9 +26,7 @@ namespace Chess {
         public:
             bool color;
             int pieceType;
-            sf::RectangleShape shape;
             sf::Sprite sprite;
-            //const int pieceType;
             // Board * boardPtr = 0; // used to determine move positions
             Tile * tilePtr; // the Tile this piece occupies
             

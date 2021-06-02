@@ -14,9 +14,6 @@ namespace Chess {
         this->color = color;
         this->tilePtr = &tile;
         tile.piecePtr = this;
-        this->shape = sf::RectangleShape(sf::Vector2f(80, 80));
-        this->shape.setFillColor(sf::Color::Red);
-        this->shape.setPosition(tile.shape.getPosition());
         this->pieceType = pieceType;
         loadSprite(spriteSheet);
     }
@@ -26,7 +23,7 @@ namespace Chess {
     void Piece::loadSprite(const sf::Texture& spriteSheet) {
         int leftX = pieceType * spriteTextureWidth;
         int topY = color * spriteTextureHeight;
-        this->sprite.setTexture(spriteSheet); // TODO use sprite.setColor to modify based on team
+        this->sprite.setTexture(spriteSheet);
         this->sprite.setTextureRect(sf::IntRect(leftX, topY, 
                                     spriteTextureWidth, spriteTextureHeight));
     }

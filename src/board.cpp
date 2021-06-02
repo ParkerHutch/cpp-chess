@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <board.hpp>
-#include <iostream>
 
 namespace Chess {
 
@@ -21,7 +20,6 @@ namespace Chess {
                 sf::Color color = (rowIndex + colIndex) % 2 == 0 ? sf::Color::White : sf::Color::Black;
                 board[rowIndex][colIndex] = Tile(sideLength, rowIndex, colIndex, color);
                 board[rowIndex][colIndex].shape.setPosition(rowIndex * sideLength, colIndex * sideLength);
-
             }
         }
     }
