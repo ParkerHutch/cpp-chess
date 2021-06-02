@@ -1,1 +1,1 @@
-file(COPY uva-sunset.jpg DESTINATION .)
+file(COPY chess-sprites.png DESTINATION .)

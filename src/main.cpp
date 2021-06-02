@@ -7,9 +7,16 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(windowDimensions.x, windowDimensions.y),
         "Chess++");
 
+    sf::Texture spriteSheet;
+    if (!spriteSheet.loadFromFile("../img/chess-sprites.png")) {
+        ;// TODO handle error here (maybe texture.create(200, 200)?)
+    }
+
     Chess::Board board(windowDimensions.x / 8);
     auto tilePtr = &(board.board[0][0]);
-    Chess::Piece pawn (board.board[0][0], Chess::PAWN);
+    Chess::Piece pawn (board.board[0][0], Chess::PAWN, spriteSheet);
+    sf::Sprite mySprite;
+    mySprite.setTexture(spriteSheet);
 
     while (window.isOpen()) {
 
@@ -23,6 +30,7 @@ int main() {
         window.clear();
 
         // Draw the chess board
+        
         for (auto row : board.board) {
             for (auto tile : row) {
                 window.draw(tile.shape);
@@ -31,6 +39,7 @@ int main() {
                 }
             }
         }
+        //window.draw(mySprite);
         //window.draw(pawn.shape);
         window.display();
     }

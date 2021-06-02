@@ -13,10 +13,10 @@ namespace Chess {
     class Tile; // Forward declaration to resolve circular dependency
 
     class Piece {
-        void loadSprite();
-        
+        void loadSprite(const sf::Texture& spriteSheet);
+
         protected:
-            sf::Texture texture;
+            //sf::Texture texture;
         public:
             int pieceType;
             sf::RectangleShape shape;
@@ -26,7 +26,7 @@ namespace Chess {
             Tile * tilePtr; // the Tile this piece occupies
             
             Piece();
-            Piece(Tile& tile, const int pieceType);
+            Piece(Tile& tile, const int pieceType, const sf::Texture& spriteSheet);
 
             std::vector<sf::Vector2f> getMovePositions();
 
