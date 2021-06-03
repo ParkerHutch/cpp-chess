@@ -31,6 +31,7 @@ namespace Chess {
             Tile * tilePtr; // the Tile this piece occupies
             
             Piece(bool color);
+            Piece(Tile& tile, bool color, const int pieceType);
             Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet);
 
             std::vector<sf::Vector2f> getMovePositions();

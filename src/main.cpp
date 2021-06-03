@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <board.hpp>
+#include <iostream>
+#include <piece.hpp>
 
 const sf::Vector2f windowDimensions(800, 800);
 
@@ -13,8 +15,9 @@ int main() {
     }
 
     Chess::Board board(windowDimensions.x / 8);
-    auto tilePtr = &(board.board[0][0]);
-    Chess::Piece pawn (board.board[0][0], Chess::WHITE, Chess::PAWN, spriteSheet);
+    std::vector<Chess::Piece> pieces = board.setPieces(spriteSheet);
+    //auto tilePtr = &(board.board[0][0]);
+    //Chess::Piece pawn (board.board[0][0], Chess::WHITE, Chess::PAWN, spriteSheet);
 
     while (window.isOpen()) {
 
@@ -24,7 +27,6 @@ int main() {
                 window.close();
             }
         }
-
         window.clear();
 
         // Draw the chess board
@@ -32,10 +34,15 @@ int main() {
         for (auto row : board.board) {
             for (auto tile : row) {
                 window.draw(tile.shape);
+                /*
                 if (tile.piecePtr) {
-                    window.draw(tile.piecePtr->sprite);
-                }
+                    //window.draw(tile.piecePtr->sprite); TODO why doesn't this work?
+                }*/
             }
+        }
+
+        for (auto piece : pieces) {
+            window.draw(piece.sprite);
         }
         window.display();
     }

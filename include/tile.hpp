@@ -9,7 +9,7 @@ namespace Chess {
 
     class Tile {
         public:
-            Piece * piecePtr = 0; // The piece on this tile, if there is one
+            Piece * piecePtr = 0; // The piece on this tile, if there is one // TODO this is probably not needed
             sf::Vector2f boardPosition;
             sf::RectangleShape shape;
 

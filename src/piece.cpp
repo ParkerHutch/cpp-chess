@@ -1,6 +1,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <piece.hpp>
+#include <tile.hpp>
+#include <iostream>
 
 namespace Chess {
 
@@ -8,6 +10,14 @@ namespace Chess {
         this->color = color;
         this->tilePtr = 0;
         this->pieceType = PAWN;
+    } 
+    
+    Piece::Piece(Tile& tile, bool color, const int pieceType) {
+        this->color = color;
+        this->tilePtr = &tile;
+        tile.piecePtr = this;
+        this->pieceType = pieceType;
+        //loadSprite(spriteSheet);
     }
 
     Piece::Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet) {
@@ -15,7 +25,10 @@ namespace Chess {
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->pieceType = pieceType;
+        //std::cout << "before load";
         loadSprite(spriteSheet);
+        this->sprite.setPosition(tile.shape.getPosition());
+        //std::cout << " after load!" << std::endl;
     }
 
     int spriteTextureWidth = 45;

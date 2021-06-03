@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include <board.hpp>
+#include <piece.hpp>
+#include <iostream>
 
 namespace Chess {
 
@@ -22,6 +25,22 @@ namespace Chess {
                 board[rowIndex][colIndex].shape.setPosition(rowIndex * sideLength, colIndex * sideLength);
             }
         }
+
+    }
+
+    std::vector<Piece> Board::setPieces(const sf::Texture& spriteSheet) {
+        std::vector<Piece> pieces;
+        int backRankPiecesOrder [8] = {
+            Chess::ROOK, Chess::KNIGHT, Chess::BISHOP, Chess::QUEEN, 
+            Chess::KING, Chess::BISHOP, Chess::KNIGHT, Chess::ROOK
+        };
+        for (int columnIndex = 0; columnIndex < board[0].size(); ++columnIndex) {
+            pieces.push_back(Piece (board[columnIndex][0], WHITE, backRankPiecesOrder[columnIndex], spriteSheet));
+            pieces.push_back(Piece (board[columnIndex][1], WHITE, PAWN, spriteSheet));
+            pieces.push_back(Piece (board[columnIndex][6], BLACK, PAWN, spriteSheet));
+            pieces.push_back(Piece (board[columnIndex][7], BLACK, backRankPiecesOrder[columnIndex], spriteSheet));
+        }
+        return pieces;  
     }
 
 }
