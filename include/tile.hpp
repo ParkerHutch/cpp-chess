@@ -10,10 +10,11 @@ namespace Chess {
     class Tile {
         public:
             Piece * piecePtr = 0; // The piece on this tile, if there is one // TODO this is probably not needed
-            sf::Vector2f boardPosition;
+            sf::Vector2i boardPosition;
             sf::RectangleShape shape;
 
             Tile();
-            Tile(float sideLength, int row, int col, sf::Color color);
+            Tile(float sideLength, int row, int col);
+            sf::Color getNormalColor();
     };
 }
