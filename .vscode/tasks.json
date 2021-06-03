@@ -54,6 +54,33 @@
                 "cwd": "${command:cmake.launchTargetDirectory}"
             },
             "problemMatcher": [],
+            "dependsOn": [ // Remove this if you don't want to build before run
+                "CMake Build"
+            ]
+        },
+        {
+            "label": "Build and Run",
+            "command": {
+                "value":["'${command:cmake.launchTargetPath}'"],
+                "quoting": "weak"
+            },
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "revealProblems": "onProblem",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "options": {
+                "cwd": "${command:cmake.launchTargetDirectory}"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "CMake Build"
+            ]
         },
         /*
         {
