@@ -13,8 +13,7 @@ void deselectPiece(Chess::Piece& piece, Chess::Board& board) {
     }
 }
 
-void selectPiece(Chess::Piece& selectedPieceRef, const Chess::Piece& clickedPieceRef, Chess::Board& board) {
-    selectedPieceRef = clickedPieceRef;
+void selectPiece(Chess::Piece& selectedPieceRef, Chess::Board& board) {
     selectedPieceRef.tilePtr->shape.setFillColor(sf::Color::Green);
     for (auto tileCoords : selectedPieceRef.getValidMoveCoordinates(board.board)) {
         board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
@@ -22,6 +21,8 @@ void selectPiece(Chess::Piece& selectedPieceRef, const Chess::Piece& clickedPiec
 }
 
 int main() {
+    int selectedPieceIndex = -1;
+
     sf::RenderWindow window(sf::VideoMode(windowDimensions.x, windowDimensions.y),
         "Chess++");
 
@@ -32,11 +33,9 @@ int main() {
 
     Chess::Board board(windowDimensions.x / 8);
     std::vector<Chess::Piece> pieces = board.setPieces(spriteSheet);
-    //auto tilePtr = &(board.board[0][0]);
-    //Chess::Piece pawn (board.board[0][0], Chess::WHITE, Chess::PAWN, spriteSheet);
     Chess::Piece * selectedPiecePtr = 0;
     //Chess::Piece& selectedPiece = pieces[0];// = 0;
-    Chess::Piece selectedPiece = 0;
+    //Chess::Piece selectedPiece = 0;
     
     while (window.isOpen()) {
 
@@ -45,54 +44,39 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             } else if (event.type == sf::Event::MouseButtonPressed) {
-                //pieces[0].sprite.setPosition(500, 500);
                 sf::Vector2f mouseCoords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                if (&selectedPiece) {
-                    for (auto tileCoords : selectedPiece.getValidMoveCoordinates(board.board)) {
-                        if (board.board[tileCoords.x][tileCoords.y].shape.getGlobalBounds().contains(mouseCoords)) {
-                            /*
-                            selectedPiece.sprite.setPosition(board.board[tileCoords.x][tileCoords.y].shape.getPosition());
-                            selectedPiece.tilePtr = &board.board[tileCoords.x][tileCoords.y];
-                            board.board[tileCoords.x][tileCoords.y].piecePtr = &selectedPiece;
-                            */
-                           selectedPiece.moveToTile(board.board[tileCoords.x][tileCoords.y]);
-                            //selectedPiece.sprite.setPosition(sf::Vector2f(500, 500));
-                            //if (selectedPiecePtr) {
-                                //std::cout << "attempting ptr" << std::endl;
-                                //selectedPiecePtr->sprite.setPosition(board.board[tileCoords.x][tileCoords.y].shape.getPosition());
-                            //}
-                            //selectedPiece.moveToTile(board.board[tileCoords.x][tileCoords.y]);
-                            //selectedPiece.
-                        }
+                
+                if (selectedPieceIndex != -1) { // If a piece is selected, check if one of its move options was clicked
+                    for (auto tileCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                        auto& validMoveTile = board.board[tileCoords.x][tileCoords.y];
+                        if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
+                            // A valid move position was clicked, de-highlight the unused options
+                            for (auto& unusedMoveCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                                auto& unusedMoveTile = board.board[unusedMoveCoords.x][unusedMoveCoords.y];
+                                if (&unusedMoveTile != &validMoveTile) {
+                                    unusedMoveTile.shape.setFillColor(unusedMoveTile.getNormalColor());
+                                }
+                            }
+                            // Move the piece to the tile and reset the selected piece
+                            pieces[selectedPieceIndex].moveToTile(validMoveTile);
+                            selectedPieceIndex = -1;
+                        } 
                     }
                 }
 
-                for (auto piece : pieces) {
-                    if (piece.sprite.getGlobalBounds().contains(mouseCoords)) {
-                        if (&selectedPiece && selectedPiece.tilePtr) {
-                            deselectPiece(selectedPiece, board);
+                //for (auto piece : pieces) { TODO what if I did auto& piece : pieces? would selectedPiece work then?
+                for (int i = 0; i < pieces.size(); ++i) {
+                    if (pieces[i].sprite.getGlobalBounds().contains(mouseCoords)) {
+                        if (selectedPieceIndex != -1) {
+                            deselectPiece(pieces[selectedPieceIndex], board); 
                         }
                         
-                        //selectPiece(selectedPiece, piece, board); // TODO not sure if this is good practice
-                        selectedPiecePtr = &piece;
-                        selectedPiece = piece;
-                        
-                        selectedPiece.tilePtr->shape.setFillColor(sf::Color::Green);
-                        for (auto tileCoords : selectedPiece.getValidMoveCoordinates(board.board)) {
-                            board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
-                        }
+
+                        selectedPieceIndex = i;
+                        selectPiece(pieces[selectedPieceIndex], board);
+
                     } 
                 }
-                // TODO don't loop through all the tiles, just loop through the 
-                // tiles that represent valid moves from the currently selected piece
-                /*
-                for (auto row : board.board) {
-                    for (auto tile : row) {
-                        if (tile.shape.getGlobalBounds().contains(mouseCoords)) {
-                            //std::cout << "tile contains the click";
-                        }
-                    }
-                }*/
                 // Check if any pieces contain the mouse position
                 // If a piece does, set it as the selected piece, unselect the last one
                 // Unhighlight the valid move spaces of the previously selected piece
@@ -107,16 +91,17 @@ int main() {
 
         // Draw the chess board
         
+        
         for (auto row : board.board) {
             for (auto tile : row) {
                 window.draw(tile.shape);
-                /*
-                if (tile.piecePtr) {
-                    //window.draw(tile.piecePtr->sprite); TODO why doesn't this work?
-                }*/
+                
+                    // if (tile.piecePtr) {
+                    //     window.draw(tile.piecePtr->sprite); //TODO why doesn't this work?
+                    // }
+                
             }
         }
-        //pieces[0].sprite.setPosition(sf::Vector2f(400, 400));
         for (auto piece : pieces) {
             window.draw(piece.sprite);
         }

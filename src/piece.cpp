@@ -32,9 +32,7 @@ namespace Chess {
 
     void Piece::moveToTile(Tile& tile) {
         this->tilePtr->piecePtr = 0;
-        //*((*tilePtr).piecePtr) = 0;
-        //(*tilePtr).piecePtr = 0;
-        //this->tilePtr->piecePtr = 0;
+        this->tilePtr->shape.setFillColor(this->tilePtr->getNormalColor());
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->sprite.setPosition(tile.shape.getPosition());
