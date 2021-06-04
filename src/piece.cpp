@@ -31,7 +31,7 @@ namespace Chess {
         //std::cout << " after load!" << std::endl;
     }
 
-    int spriteTextureWidth = 45;
+    int spriteTextureWidth = 45; // TODO declare these somewhere else
     int spriteTextureHeight = 45;
     void Piece::loadSprite(const sf::Texture& spriteSheet) {
         int leftX = pieceType * spriteTextureWidth;
@@ -39,6 +39,27 @@ namespace Chess {
         this->sprite.setTexture(spriteSheet);
         this->sprite.setTextureRect(sf::IntRect(leftX, topY, 
                                     spriteTextureWidth, spriteTextureHeight));
+    }
+
+    std::vector<sf::Vector2i> Piece::getValidMoveCoordinates() {
+        std::vector<sf::Vector2i> results; // TODO make sure this is OK
+        if (!(this->tilePtr)) {
+            return results;
+        }
+        sf::Vector2i currentPosition = this->tilePtr->boardPosition;
+        
+        switch (this->pieceType) {
+            case PAWN:
+                if (true || (this->color == Chess::WHITE)) { // TODO I can remove this, only have it here b/c error otherwise
+                    sf::Vector2i downwards (currentPosition.x, currentPosition.y + 1 - 2 * this->color);
+                    results.push_back(downwards);
+                }
+                break;
+            
+            default:
+                break;
+        }
+        return results;
     }
     /*
     std::vector<sf::Vector2f> Piece::getMovePositions() {
