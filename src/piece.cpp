@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <piece.hpp>
 #include <tile.hpp>
-#include <iostream>
 
 namespace Chess {
 
@@ -31,6 +30,16 @@ namespace Chess {
         //std::cout << " after load!" << std::endl;
     }
 
+    void Piece::moveToTile(Tile& tile) {
+        this->tilePtr->piecePtr = 0;
+        //*((*tilePtr).piecePtr) = 0;
+        //(*tilePtr).piecePtr = 0;
+        //this->tilePtr->piecePtr = 0;
+        this->tilePtr = &tile;
+        tile.piecePtr = this;
+        this->sprite.setPosition(tile.shape.getPosition());
+    }
+
     int spriteTextureWidth = 45; // TODO declare these somewhere else
     int spriteTextureHeight = 45;
     void Piece::loadSprite(const sf::Texture& spriteSheet) {
@@ -41,8 +50,12 @@ namespace Chess {
                                     spriteTextureWidth, spriteTextureHeight));
     }
 
-    std::vector<sf::Vector2i> Piece::getValidMoveCoordinates() {
-        std::vector<sf::Vector2i> results; // TODO make sure this is OK
+    bool boardPositionOccupied(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board) {
+        return board[position.x][position.y].piecePtr != 0;
+    }
+
+    std::vector<sf::Vector2i> Piece::getValidMoveCoordinates(std::array<std::array<Tile, 8>, 8>& board) {
+        std::vector<sf::Vector2i> results;
         if (!(this->tilePtr)) {
             return results;
         }
@@ -50,9 +63,24 @@ namespace Chess {
         
         switch (this->pieceType) {
             case PAWN:
-                if (true || (this->color == Chess::WHITE)) { // TODO I can remove this, only have it here b/c error otherwise
-                    sf::Vector2i downwards (currentPosition.x, currentPosition.y + 1 - 2 * this->color);
-                    results.push_back(downwards);
+                {
+                    sf::Vector2i forwards (currentPosition.x, currentPosition.y + 1 - 2 * this->color);
+                    if (forwards.y >= 0 && forwards.y <= 7 && !boardPositionOccupied(forwards, board)) {
+                        results.push_back(forwards);
+                    }
+                    if (currentPosition.x - 1 > 0) {
+                        sf::Vector2i leftDiagonal (currentPosition.x - 1, currentPosition.y + 1 - 2 * this->color);
+                        if (boardPositionOccupied(leftDiagonal, board)) {
+                            results.push_back(leftDiagonal);
+                        } 
+                    }
+                    if (currentPosition.x + 1 < 8) {
+                        sf::Vector2i rightDiagonal (currentPosition.x + 1, currentPosition.y + 1 - 2 * this->color);
+                        if (boardPositionOccupied(rightDiagonal, board)) {
+                            results.push_back(rightDiagonal);
+                        } 
+                    }
+                    //results.push_back(forwards);
                 }
                 break;
             
@@ -61,6 +89,7 @@ namespace Chess {
         }
         return results;
     }
+
     /*
     std::vector<sf::Vector2f> Piece::getMovePositions() {
         switch (this->pieceType) {

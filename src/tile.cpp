@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <tile.hpp>
-#include <iostream>
 
 namespace Chess {
 

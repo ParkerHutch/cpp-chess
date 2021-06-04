@@ -3,8 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <tile.hpp>
-#include <piece.hpp>
-#include <vector>
 
 namespace Chess {
     class Tile;

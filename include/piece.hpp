@@ -34,7 +34,9 @@ namespace Chess {
             Piece(Tile& tile, bool color, const int pieceType);
             Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet);
 
-            std::vector<sf::Vector2i> getValidMoveCoordinates();
+            std::vector<sf::Vector2i> getValidMoveCoordinates(std::array<std::array<Tile, 8>, 8>& board);
+
+            void moveToTile(Tile& tile);
 
             void draw();
         

@@ -2,7 +2,6 @@
 #include <vector>
 #include <board.hpp>
 #include <piece.hpp>
-#include <iostream>
 
 namespace Chess {
 
