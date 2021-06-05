@@ -22,7 +22,9 @@ namespace Chess {
 
     class Piece {
         void loadSprite(const sf::Texture& spriteSheet);
-
+        bool boardPositionOccupied(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board);
+        bool boardPositionOccupiedByEnemy(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board);
+        
         public:
             bool color;
             int pieceType;

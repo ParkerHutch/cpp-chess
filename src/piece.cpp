@@ -16,7 +16,6 @@ namespace Chess {
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->pieceType = pieceType;
-        //loadSprite(spriteSheet);
     }
 
     Piece::Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet) {
@@ -24,10 +23,8 @@ namespace Chess {
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->pieceType = pieceType;
-        //std::cout << "before load";
         loadSprite(spriteSheet);
         this->sprite.setPosition(tile.shape.getPosition());
-        //std::cout << " after load!" << std::endl;
     }
 
     void Piece::moveToTile(Tile& tile) {
@@ -48,8 +45,13 @@ namespace Chess {
                                     spriteTextureWidth, spriteTextureHeight));
     }
 
-    bool boardPositionOccupied(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board) {
+    bool Piece::boardPositionOccupied(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board) {
         return board[position.x][position.y].piecePtr != 0;
+    }
+
+    bool Piece::boardPositionOccupiedByEnemy(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board) {
+        auto& tile = board[position.x][position.y];
+        return tile.piecePtr ? tile.piecePtr->color != this->color : false;
     }
 
     std::vector<sf::Vector2i> Piece::getValidMoveCoordinates(std::array<std::array<Tile, 8>, 8>& board) {
@@ -68,17 +70,16 @@ namespace Chess {
                     }
                     if (currentPosition.x - 1 > 0) {
                         sf::Vector2i leftDiagonal (currentPosition.x - 1, currentPosition.y + 1 - 2 * this->color);
-                        if (boardPositionOccupied(leftDiagonal, board)) {
+                        if (boardPositionOccupiedByEnemy(leftDiagonal, board)) {
                             results.push_back(leftDiagonal);
                         } 
                     }
                     if (currentPosition.x + 1 < 8) {
                         sf::Vector2i rightDiagonal (currentPosition.x + 1, currentPosition.y + 1 - 2 * this->color);
-                        if (boardPositionOccupied(rightDiagonal, board)) {
+                        if (boardPositionOccupiedByEnemy(rightDiagonal, board)) {
                             results.push_back(rightDiagonal);
                         } 
                     }
-                    //results.push_back(forwards);
                 }
                 break;
             
