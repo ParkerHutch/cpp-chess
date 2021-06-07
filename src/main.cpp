@@ -7,14 +7,25 @@ const sf::Vector2f windowDimensions(800, 800);
 
 void deselectPiece(Chess::Piece& piece, Chess::Board& board) {
     piece.tilePtr->shape.setFillColor(piece.tilePtr->getNormalColor());
-    for (auto tileCoords : piece.getValidMoveCoordinates(board.board)) {
-        // De-highlight the old move tiles
-        board.board[tileCoords.x][tileCoords.y].shape.setFillColor(board.board[tileCoords.x][tileCoords.y].getNormalColor());
+    //std::cout << piece.getValidMoveTilesPtrs(board.board).size();
+    //for (auto tile : piece.getValidMoveTilesPtrs(board.board)) {
+        // if (tile) {
+        //     auto& validTile = *tile;
+        //     validTile.shape.setFillColor(validTile.getNormalColor());
+        // }
+        //tile.get().shape.setFillColor(tile.get().getNormalColor());
+    //}        
+    
+    for (auto tile : piece.getValidMoveTiles(board.board)) {
+        tile.get().shape.setFillColor(tile.get().getNormalColor());
     }
 }
 
 void selectPiece(Chess::Piece& selectedPieceRef, Chess::Board& board) {
     selectedPieceRef.tilePtr->shape.setFillColor(sf::Color::Green);
+    for (auto tileWrapper : selectedPieceRef.getValidMoveTiles(board.board)) {
+        tileWrapper.get().shape.setFillColor(sf::Color::Red);
+    }
     for (auto tileCoords : selectedPieceRef.getValidMoveCoordinates(board.board)) {
         board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
     }
@@ -36,7 +47,7 @@ int main() {
     Chess::Piece * selectedPiecePtr = 0;
     //Chess::Piece& selectedPiece = pieces[0];// = 0;
     //Chess::Piece selectedPiece = 0;
-    
+
     while (window.isOpen()) {
 
         sf::Event event;
@@ -47,14 +58,48 @@ int main() {
                 sf::Vector2f mouseCoords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
                 
                 if (selectedPieceIndex != -1) { // If a piece is selected, check if one of its move options was clicked
+                    // std::cout << pieces[selectedPieceIndex].getValidMoveTilesPtrs(board.board).size();
+                    // for (Chess::Tile * tile : pieces[selectedPieceIndex].getValidMoveTilesPtrs(board.board)) {
+                    //     Chess::Tile& validMoveTile = *tile;
+                    //     if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
+                    //         // A valid move position was clicked, de-highlight the unused options
+                    //         for (sf::Vector2i& unusedMoveCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                    //             Chess::Tile& unusedMoveTile = board.board[unusedMoveCoords.x][unusedMoveCoords.y];
+                    //             unusedMoveTile.shape.setFillColor(unusedMoveTile.getNormalColor());
+                    //         }
+                    //         // Move the piece to the tile and reset the selected piece
+                    //         pieces[selectedPieceIndex].moveToTile(validMoveTile);
+                    //         selectedPieceIndex = -1;
+                    //         break;
+                    //     }
+                    // }
+                    // for (auto tile : pieces[selectedPieceIndex].getValidMoveTiles(board.board)) {
+                    //     auto& validMoveTile = tile.get();
+                    //     if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
+                    //         // A valid move position was clicked, de-highlight the unused options
+                    //         for (auto& unusedMoveCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                    //             auto& unusedMoveTile = board.board[unusedMoveCoords.x][unusedMoveCoords.y];
+                    //             unusedMoveTile.shape.setFillColor(unusedMoveTile.getNormalColor());
+                    //         }
+                    //         // Move the piece to the tile and reset the selected piece
+                    //         pieces[selectedPieceIndex].moveToTile(validMoveTile);
+                    //         selectedPieceIndex = -1;
+                    //     }
+                    // }
+                    
                     for (auto tileCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
                         auto& validMoveTile = board.board[tileCoords.x][tileCoords.y];
                         if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
                             // A valid move position was clicked, de-highlight the unused options
-                            for (auto& unusedMoveCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
-                                auto& unusedMoveTile = board.board[unusedMoveCoords.x][unusedMoveCoords.y];
-                                if (&unusedMoveTile != &validMoveTile) {
-                                    unusedMoveTile.shape.setFillColor(unusedMoveTile.getNormalColor());
+                            // for (auto& unusedMoveCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                            //     auto& unusedMoveTile = board.board[unusedMoveCoords.x][unusedMoveCoords.y];
+                            //     if (&unusedMoveTile != &validMoveTile) {
+                            //         unusedMoveTile.shape.setFillColor(unusedMoveTile.getNormalColor());
+                            //     }
+                            // }
+                            for (auto& row : board.board) {
+                                for (auto& tile : row) {
+                                    tile.shape.setFillColor(tile.getNormalColor());
                                 }
                             }
                             // Move the piece to the tile and reset the selected piece
@@ -66,11 +111,21 @@ int main() {
 
                 //for (auto piece : pieces) { TODO what if I did auto& piece : pieces? would selectedPiece work then?
                 for (int i = 0; i < pieces.size(); ++i) {
+                    
                     if (pieces[i].sprite.getGlobalBounds().contains(mouseCoords)) {
                         if (selectedPieceIndex != -1) {
-                            deselectPiece(pieces[selectedPieceIndex], board); 
+                            for (auto& row : board.board) {
+                                for (auto& tile : row) {
+                                    tile.shape.setFillColor(tile.getNormalColor());
+                                }
+                            }
+                            //std::cout << "outside func moves size: " << pieces[i].getValidMoveTilesPtrs(board.board).size();
+                            //deselectPiece(pieces[selectedPieceIndex], board);
+                            /*
+                            for (auto tile : pieces[selectedPieceIndex].getValidMoveTilesPtrs(board.board)) {
+                                tile->shape.setFillColor(tile->getNormalColor());
+                            }*/
                         }
-                        
 
                         selectedPieceIndex = i;
                         selectPiece(pieces[selectedPieceIndex], board);

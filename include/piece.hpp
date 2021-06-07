@@ -3,7 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <tile.hpp>
-
+#include <functional>
 
 namespace Chess {
 
@@ -24,7 +24,7 @@ namespace Chess {
         void loadSprite(const sf::Texture& spriteSheet);
         bool boardPositionOccupied(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board);
         bool boardPositionOccupiedByEnemy(sf::Vector2i position, std::array<std::array<Tile, 8>, 8>& board);
-        
+
         public:
             bool color;
             int pieceType;
@@ -35,6 +35,10 @@ namespace Chess {
             Piece(bool color);
             Piece(Tile& tile, bool color, const int pieceType);
             Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet);
+
+            std::vector<Tile *> getValidMoveTilesPtrs(std::array<std::array<Tile, 8>, 8>& board);
+
+            std::vector<std::reference_wrapper<Tile>> getValidMoveTiles(std::array<std::array<Tile, 8>, 8>& board);
 
             std::vector<sf::Vector2i> getValidMoveCoordinates(std::array<std::array<Tile, 8>, 8>& board);
 
