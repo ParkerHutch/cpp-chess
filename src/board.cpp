@@ -2,6 +2,7 @@
 #include <vector>
 #include <board.hpp>
 #include <piece.hpp>
+#include <iostream>
 
 namespace Chess {
 
@@ -33,12 +34,13 @@ namespace Chess {
             Chess::ROOK, Chess::KNIGHT, Chess::BISHOP, Chess::QUEEN, 
             Chess::KING, Chess::BISHOP, Chess::KNIGHT, Chess::ROOK
         };
-        for (int columnIndex = 0; columnIndex < board[0].size(); ++columnIndex) {
+        for (int columnIndex = 0; columnIndex < 8; ++columnIndex) {
             pieces.push_back(Piece (board[columnIndex][0], WHITE, backRankPiecesOrder[columnIndex], spriteSheet));
             pieces.push_back(Piece (board[columnIndex][1], WHITE, PAWN, spriteSheet));
             pieces.push_back(Piece (board[columnIndex][6], BLACK, PAWN, spriteSheet));
             pieces.push_back(Piece (board[columnIndex][7], BLACK, backRankPiecesOrder[columnIndex], spriteSheet));
         }
+        std::cout << "internal (0, 0) type: " << board[0][0].piecePtr->pieceType << std::endl;
         return pieces;  
     }
 

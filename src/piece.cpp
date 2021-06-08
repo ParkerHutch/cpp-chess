@@ -13,14 +13,14 @@ namespace Chess {
         this->pieceType = PAWN;
     } 
     
-    Piece::Piece(Tile& tile, bool color, const int pieceType) {
+    Piece::Piece(Tile& tile, int color, const int pieceType) {
         this->color = color;
         this->tilePtr = &tile;
         tile.piecePtr = this;
         this->pieceType = pieceType;
     }
 
-    Piece::Piece(Tile& tile, bool color, const int pieceType, const sf::Texture& spriteSheet) {
+    Piece::Piece(Tile& tile, int color, const int pieceType, const sf::Texture& spriteSheet) {
         this->color = color;
         this->tilePtr = &tile;
         tile.piecePtr = this;
@@ -60,7 +60,7 @@ namespace Chess {
     std::vector<Tile *> Piece::getValidMoveTilesPtrs(std::array<std::array<Tile, 8>, 8>& board) {
         std::vector<Tile *> results;
         if (!(this->tilePtr)) {
-            std::cout << "ending early, this is bad";
+            std::cout << "ending early, this is bad" << std::endl;
             return results;
         }
         sf::Vector2i currentPosition = this->tilePtr->boardPosition;
@@ -68,6 +68,7 @@ namespace Chess {
         switch (this->pieceType) {
             case PAWN:
                 {
+                    std::cout << "my color is: " << std::endl;
                     if (this->color == WHITE) {
                         sf::Vector2i forwardsPosition (currentPosition.x, currentPosition.y + 1);
 
@@ -180,25 +181,35 @@ namespace Chess {
             return results;
         }
         sf::Vector2i currentPosition = this->tilePtr->boardPosition;
-        
         switch (this->pieceType) {
             case PAWN:
                 {
                     sf::Vector2i forwards (currentPosition.x, currentPosition.y + 1 - 2 * this->color);
-                    if (forwards.y >= 0 && forwards.y <= 7 && !boardPositionOccupied(forwards, board)) {
-                        results.push_back(forwards);
-                    }
-                    if (currentPosition.x - 1 > 0) {
-                        sf::Vector2i leftDiagonal (currentPosition.x - 1, currentPosition.y + 1 - 2 * this->color);
-                        if (boardPositionOccupiedByEnemy(leftDiagonal, board)) {
-                            results.push_back(leftDiagonal);
-                        } 
-                    }
-                    if (currentPosition.x + 1 < 8) {
-                        sf::Vector2i rightDiagonal (currentPosition.x + 1, currentPosition.y + 1 - 2 * this->color);
-                        if (boardPositionOccupiedByEnemy(rightDiagonal, board)) {
-                            results.push_back(rightDiagonal);
-                        } 
+                    if (forwards.y >= 0 && forwards.y <= 6) {
+                        if (!boardPositionOccupied(forwards, board)) {
+                            results.push_back(forwards);
+                        }
+                        if (currentPosition.x > 0) {
+                            sf::Vector2i leftDiagonal (currentPosition.x - 1, currentPosition.y + 1 - 2 * this->color);
+                            //if (boardPositionOccupiedByEnemy(leftDiagonal, board)) {
+                            if (board[leftDiagonal.x][leftDiagonal.y].piecePtr) {
+                                Piece leftDiagonalPiece = *board[leftDiagonal.x][leftDiagonal.y].piecePtr;
+                                if (leftDiagonalPiece.color != this->color) {
+                                    std::cout << "colors were different!" << std::endl;
+                                    std::cout << "My color: " << this->color << "other color: " << leftDiagonalPiece.color << std::endl;
+                                    results.push_back(leftDiagonal);
+                                } else {
+                                    std::cout << "colors were the same..." << std::endl;
+                                    std::cout << "My color: " << this->color << "other color: " << leftDiagonalPiece.color << std::endl;
+                                }
+                            } 
+                        }
+                        if (currentPosition.x <= 6) {
+                            sf::Vector2i rightDiagonal (currentPosition.x + 1, currentPosition.y + 1 - 2 * this->color);
+                            //if (boardPositionOccupiedByEnemy(rightDiagonal, board)) {
+                                results.push_back(rightDiagonal);
+                            //} 
+                        }
                     }
                 }
                 break;
