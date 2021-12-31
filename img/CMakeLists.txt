@@ -1,1 +1,0 @@
-file(COPY chess-sprites.png DESTINATION .)

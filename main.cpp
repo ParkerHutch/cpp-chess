@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include <board.hpp>
+#include "board.h"
 #include <iostream>
-#include <piece.hpp>
+#include "piece.h"
 
 const sf::Vector2f windowDimensions(800, 800);
 
@@ -15,7 +15,7 @@ void deselectPiece(Chess::Piece& piece, Chess::Board& board) {
         // }
         //tile.get().shape.setFillColor(tile.get().getNormalColor());
     //}        
-    
+
     for (auto tile : piece.getValidMoveTiles(board.board)) {
         tile.get().shape.setFillColor(tile.get().getNormalColor());
     }
@@ -41,50 +41,22 @@ void clearBoardHighlights(Chess::Board& board) {
 int main() {
     int selectedPieceIndex = -1;
 
-    sf::RenderWindow window(sf::VideoMode(windowDimensions.x, windowDimensions.y),
+    sf::RenderWindow window(sf::VideoMode((unsigned int) windowDimensions.x, (unsigned int) windowDimensions.y),
         "Chess++");
-
+        
     sf::Texture spriteSheet;
-    if (!spriteSheet.loadFromFile("../img/chess-sprites.png")) {
+    
+    if (!spriteSheet.loadFromFile("chess-sprites.png")) {
+        // Make sure Visual Studio is set to the correct Debug/Release Settings
+        // If VS is in Debug mode, all libraries should have SFML-xyz-d.lib
+        // else, they should just have SFML-xyz.lib
+        std::cout << "Failed to load sprite sheet\n";
         ;// TODO handle error here (maybe texture.create(200, 200)?)
     }
 
     Chess::Board board(windowDimensions.x / 8);
-    std::vector<Chess::Piece> pieces = board.setPieces(spriteSheet);
-    //Chess::Piece * selectedPiecePtr = 0;
-    //Chess::Piece& selectedPiece = pieces[0];// = 0;
-    //Chess::Piece selectedPiece = 0;
-    //for (auto piece : pieces) {
-        //std::cout << "Direct piece color: " << piece.color << std::endl;
-        //Chess::Tile tile = *piece.tilePtr;
-        //std::cout << "Piece position: (" << tile.boardPosition.x << ", " << tile.boardPosition.y << ")" << std::endl;
-    //}
-    //Chess::Piece & piece2 = *(board.board[7][1].piecePtr);
-    //Chess::Piece piece = board.board[0][1].piecePtr;
-    //std::cout << "Outside (0, 0) type (method 1): " << piece.pieceType << std::endl;// Always 5
-
-    //std::cout << "Outside (0, 1) type (method 2): " << ((board.board)[0][1].piecePtr->pieceType) << std::endl; // Wrong for (0, 1)
+    std::vector<Chess::Piece *> pieces = board.setPieces(spriteSheet);
     
-    // for (auto& piece : pieces) {
-    //     Chess::Tile tile = *piece.tilePtr;
-    //     std::cout << "Piece type " << piece.pieceType << " at (" << tile.boardPosition.x << ", " << tile.boardPosition.y << ")" << std::endl;
-    // } 
-    /*
-    for (auto& row : board.board) {
-        for (auto& tile : row) {
-            
-            if (false && tile.piecePtr) {
-                
-                // TODO : Why do these 3 methods have different behavior?
-                Chess::Piece piece = *tile.piecePtr;
-                std::cout << "Color (unwrapped ptr): " << piece.color << std::endl;
-                std::cout << "Other method: " << (*tile.piecePtr).color << std::endl;
-                std::cout << "Method 3: " << tile.piecePtr->color << std::endl;
-                //std::cout << "Color: " << tile.piecePtr->color << std::endl;
-                
-            }
-        }
-    }*/
 
     while (window.isOpen()) {
 
@@ -92,40 +64,42 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
-            } else if (event.type == sf::Event::MouseButtonPressed) {
+            }
+            else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2f mouseCoords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                
-                if (selectedPieceIndex != -1) { 
+
+                if (selectedPieceIndex != -1) {
                     // If a piece is selected, check if one of its move options was clicked
                     // If so, move it to that tile
-                    
-                    for (auto tileCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+
+                    for (auto tileCoords : pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
                         auto& validMoveTile = board.board[tileCoords.x][tileCoords.y];
                         if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
                             clearBoardHighlights(board);
-                            pieces[selectedPieceIndex].moveToTile(validMoveTile);
+                            pieces[selectedPieceIndex]->moveToTile(validMoveTile);
                             selectedPieceIndex = -1;
-                        } 
+                        }
                     }
-                } else {
+                }
+                else {
                     for (int i = 0; i < pieces.size(); ++i) {
-                        std::cout << "Color: " << pieces[i].color << "\n";
-                        if (pieces[i].sprite.getGlobalBounds().contains(mouseCoords)) {
+                        
+                        if (pieces[i]->sprite.getGlobalBounds().contains(mouseCoords)) {
                             // Clear board highlights
                             clearBoardHighlights(board);
                             selectedPieceIndex = i;
                             // TODO maybe check that this tilePtr exists
-                            pieces[selectedPieceIndex].tilePtr->shape.setFillColor(sf::Color::Green);
+                            pieces[selectedPieceIndex]->tilePtr->shape.setFillColor(sf::Color::Green);
                             //std::cout << "here";
-                            for (auto tileCoords : pieces[selectedPieceIndex].getValidMoveCoordinates(board.board)) {
+                            for (auto tileCoords : pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
                                 //std::cout << "executing line" << std::endl;
                                 board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
                             }
 
-                        } 
+                        }
                     }
                 }
-                
+
             }
         }
         window.clear();
@@ -138,7 +112,7 @@ int main() {
         }
         // Draw the pieces
         for (auto piece : pieces) {
-            window.draw(piece.sprite);
+            window.draw(piece->sprite);
         }
         window.display();
     }
