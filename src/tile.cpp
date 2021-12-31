@@ -4,11 +4,11 @@
 namespace Chess {
 
     Tile::Tile() {
-        shape = sf::RectangleShape();
+        this->shape = sf::RectangleShape();
     }
 
     Tile::Tile(float sideLength, int row, int col) {
-        shape = sf::RectangleShape(sf::Vector2f(sideLength, sideLength));
+        this->shape = sf::RectangleShape(sf::Vector2f(sideLength, sideLength));
         this->boardPosition = sf::Vector2i(row, col); // TODO maybe I don't need this
         this->shape.setFillColor(getNormalColor());
         //this->shape.setOutlineColor(sf::Color::Black);

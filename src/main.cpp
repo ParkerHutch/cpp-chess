@@ -109,7 +109,7 @@ int main() {
                     }
                 } else {
                     for (int i = 0; i < pieces.size(); ++i) {
-                        
+                        std::cout << "Color: " << pieces[i].color << "\n";
                         if (pieces[i].sprite.getGlobalBounds().contains(mouseCoords)) {
                             // Clear board highlights
                             clearBoardHighlights(board);

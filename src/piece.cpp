@@ -32,6 +32,9 @@ namespace Chess {
     void Piece::moveToTile(Tile& tile) {
         this->tilePtr->piecePtr = 0;
         this->tilePtr->shape.setFillColor(this->tilePtr->getNormalColor());
+        if (tile.piecePtr != NULL) {
+            delete tile.piecePtr;
+        }
         tile.piecePtr = this;
         this->tilePtr = &tile;
         this->sprite.setPosition(tile.shape.getPosition());
@@ -192,22 +195,35 @@ namespace Chess {
                         if (currentPosition.x > 0) {
                             sf::Vector2i leftDiagonal (currentPosition.x - 1, currentPosition.y + 1 - 2 * this->color);
                             //if (boardPositionOccupiedByEnemy(leftDiagonal, board)) {
-                            if (board[leftDiagonal.x][leftDiagonal.y].piecePtr) {
+                            if (board[leftDiagonal.x][leftDiagonal.y].piecePtr) { // TODO need to make sure it's an enemy as well
+                                std::cout << "piece there\n";
                                 Piece leftDiagonalPiece = *board[leftDiagonal.x][leftDiagonal.y].piecePtr;
                                 if (leftDiagonalPiece.color != this->color) {
                                     std::cout << "colors were different!" << std::endl;
-                                    std::cout << "My color: " << this->color << "other color: " << leftDiagonalPiece.color << std::endl;
+                                    std::cout << "My color: " << this->color << " left diagonal color: " << leftDiagonalPiece.color << std::endl;
                                     results.push_back(leftDiagonal);
                                 } else {
                                     std::cout << "colors were the same..." << std::endl;
-                                    std::cout << "My color: " << this->color << "other color: " << leftDiagonalPiece.color << std::endl;
+                                    std::cout << "My color: " << this->color << " left diagonal color: " << leftDiagonalPiece.color << std::endl;
                                 }
                             } 
                         }
+                        std::cout << "out\n";
                         if (currentPosition.x <= 6) {
                             sf::Vector2i rightDiagonal (currentPosition.x + 1, currentPosition.y + 1 - 2 * this->color);
                             //if (boardPositionOccupiedByEnemy(rightDiagonal, board)) {
-                                results.push_back(rightDiagonal);
+                            if (board[rightDiagonal.x][rightDiagonal.y].piecePtr) { // TODO need to make sure it's an enemy as well
+                                Piece rightDiagonalPiece = *board[rightDiagonal.x][rightDiagonal.y].piecePtr;
+                                if (rightDiagonalPiece.color != this->color) {
+                                    std::cout << "colors were different!" << std::endl;
+                                    std::cout << "My color: " << this->color << " right diagonal color: " << rightDiagonalPiece.color << std::endl;
+                                    results.push_back(rightDiagonal);
+                                } else {
+                                    std::cout << "colors were the same..." << std::endl;
+                                    std::cout << "My color: " << this->color << "other color: " << rightDiagonalPiece.color << std::endl;
+                                }
+                            } 
+                                //results.push_back(rightDiagonal);
                             //} 
                         }
                     }
