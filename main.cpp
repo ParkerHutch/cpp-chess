@@ -6,15 +6,7 @@
 const sf::Vector2f windowDimensions(800, 800);
 
 void deselectPiece(Chess::Piece& piece, Chess::Board& board) {
-    piece.tilePtr->shape.setFillColor(piece.tilePtr->getNormalColor());
-    //std::cout << piece.getValidMoveTilesPtrs(board.board).size();
-    //for (auto tile : piece.getValidMoveTilesPtrs(board.board)) {
-        // if (tile) {
-        //     auto& validTile = *tile;
-        //     validTile.shape.setFillColor(validTile.getNormalColor());
-        // }
-        //tile.get().shape.setFillColor(tile.get().getNormalColor());
-    //}        
+    piece.tilePtr->shape.setFillColor(piece.tilePtr->getNormalColor());      
 
     for (auto tile : piece.getValidMoveTiles(board.board)) {
         tile.get().shape.setFillColor(tile.get().getNormalColor());
@@ -23,9 +15,7 @@ void deselectPiece(Chess::Piece& piece, Chess::Board& board) {
 
 void selectPiece(Chess::Piece& selectedPieceRef, Chess::Board& board) {
     selectedPieceRef.tilePtr->shape.setFillColor(sf::Color::Green);
-    // for (auto tileWrapper : selectedPieceRef.getValidMoveTiles(board.board)) {
-    //     tileWrapper.get().shape.setFillColor(sf::Color::Red);
-    // }
+    
     for (auto tileCoords : selectedPieceRef.getValidMoveCoordinates(board.board)) {
         board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
     }
