@@ -36,7 +36,7 @@ namespace Chess {
         
         if (tile.piecePtr != nullptr) {
             // TODO should delete the piece ptr here to make sure memory isn't getting leaked (I think?)
-            //delete tile.piecePtr;
+            delete tile.piecePtr;
         }
         
         tile.piecePtr = this;

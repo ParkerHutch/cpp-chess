@@ -28,6 +28,25 @@ void clearBoardHighlights(Chess::Board& board) {
         }
     }
 }
+
+void movePieceToTile(Chess::Tile & tilePtr, Chess::Piece & piecePtr, std::vector<Chess::Piece *> & pieces) {
+    if (tilePtr.piecePtr) {
+
+        if (tilePtr.piecePtr->color != piecePtr.color) {
+        //if (tilePtr.piecePtr->color != pieces[selectedPieceIndex]->color) {
+
+            // Remove the conquered piece from the game
+
+            Chess::Piece* conqueredPiece = tilePtr.piecePtr;
+            auto pieceIndex = std::find(pieces.begin(), pieces.end(), conqueredPiece);
+            pieces.erase(pieceIndex);
+
+        }
+
+    }
+    piecePtr.moveToTile(tilePtr);
+}
+
 int main() {
     int selectedPieceIndex = -1;
 
@@ -66,7 +85,26 @@ int main() {
                         auto& validMoveTile = board.board[tileCoords.x][tileCoords.y];
                         if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
                             clearBoardHighlights(board);
+                            
+                            
+                            movePieceToTile(validMoveTile, *pieces[selectedPieceIndex], pieces);
+                            /*
+                            if (validMoveTile.piecePtr) {
+
+                                if (validMoveTile.piecePtr->color != pieces[selectedPieceIndex]->color) {
+
+                                    // Remove the conquered piece from the game
+                                    
+                                    Chess::Piece* conqueredPiece = validMoveTile.piecePtr;
+                                    auto pieceIndex = std::find(pieces.begin(), pieces.end(), conqueredPiece);
+                                    pieces.erase(pieceIndex);
+
+                                }
+
+                            }
                             pieces[selectedPieceIndex]->moveToTile(validMoveTile);
+                            */
+                            
                             selectedPieceIndex = -1;
                         }
                     }
@@ -102,7 +140,9 @@ int main() {
         }
         // Draw the pieces
         for (auto piece : pieces) {
+            
             window.draw(piece->sprite);
+            
         }
         window.display();
     }
