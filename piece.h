@@ -38,6 +38,7 @@ namespace Chess {
         Piece(Tile * initialTilePtr, const int color, const int pieceType, const sf::Texture& spriteSheet);
 
         bool tileOccupiedByEnemy(const Tile* tilePtr) const;
+        bool tileOccupiedByFriendly(const Tile* tilePtr) const;
 
         void moveToTile(Tile * nextTilePtr);
 

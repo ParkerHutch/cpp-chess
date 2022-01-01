@@ -63,5 +63,8 @@ namespace Chess {
     bool Piece::tileOccupiedByEnemy(const Tile * tilePtr) const {
         return tilePtr->piecePtr ? tilePtr->piecePtr->color != this->color : false;
     }
+    bool Piece::tileOccupiedByFriendly(const Tile* tilePtr) const {
+        return tilePtr->piecePtr ? tilePtr->piecePtr->color == this->color : false;
+    }
 
 }
