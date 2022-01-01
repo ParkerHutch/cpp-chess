@@ -11,11 +11,9 @@ namespace Chess {
         this->shape = sf::RectangleShape(sf::Vector2f(sideLength, sideLength));
         this->boardPosition = sf::Vector2i(row, col); // TODO maybe I don't need this
         this->shape.setFillColor(getNormalColor());
-        //this->shape.setOutlineColor(sf::Color::Black);
-        //this->shape.setOutlineThickness(2);
     }
 
     sf::Color Tile::getNormalColor() const {
-        return (boardPosition.x + boardPosition.y) % 2 == 0 ? sf::Color::White : sf::Color::Black;
+        return (boardPosition.x + boardPosition.y) % 2 == 0 ? TILE_COLOR_A : TILE_COLOR_B;
     }
 }

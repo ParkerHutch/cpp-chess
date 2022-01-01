@@ -15,10 +15,10 @@ namespace Chess {
         std::vector<Piece*> pieces; // All pieces currently on the board
 
         /**
-        * Creates an 8x8 board of alternatingly colored square tiles whose side lengths correspond to the 
+        * Creates an 8x8 board of alternatingly colored square tiles whose side lengths correspond to 1/8 of the 
         * given side length parameter.
         * 
-        * @param sideLength the side length for each square tile on the board
+        * @param sideLength the side length of the entire board
         */
         Board(const float sideLength);
 
@@ -33,6 +33,9 @@ namespace Chess {
         */
         void setPieces(const sf::Texture& spriteSheet);
         
+        bool boardPositionOccupied(const sf::Vector2i position) const;
+
+
         /**
         * @brief moves a piece to a tile, removing the piece that was previously there if it exists.
         * 

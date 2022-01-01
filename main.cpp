@@ -3,9 +3,10 @@
 #include <iostream>
 #include "piece.h"
 
-const sf::Vector2f windowDimensions(800, 800);
-
 int main() {
+
+    const sf::Vector2f windowDimensions(800, 800);
+
     int selectedPieceIndex = -1;
 
     sf::RenderWindow window(sf::VideoMode((unsigned int) windowDimensions.x, (unsigned int) windowDimensions.y),
@@ -55,11 +56,8 @@ int main() {
                             board.clearHighlights();
 
                             selectedPieceIndex = i;
-                            // TODO maybe check that this tilePtr exists
                             board.pieces[selectedPieceIndex]->tilePtr->shape.setFillColor(sf::Color::Green);
-                            //std::cout << "here";
                             for (auto tileCoords : board.pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
-                                //std::cout << "executing line" << std::endl;
                                 board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
                             }
 
