@@ -2,12 +2,12 @@
 #include "board.h"
 #include <iostream>
 #include "piece.h"
-#include "main.h"
+#include "MoveLogic.h"
 
 void highlightPossibleMoves(Chess::Board& board, Chess::Piece*& selectedPiece) {
     board.resetColors();
     selectedPiece->tilePtr->shape.setFillColor(sf::Color::Green);
-    for (auto& tile : selectedPiece->getValidMoveTilePtrs(board.board)) {
+    for (auto& tile : Chess::MoveLogic::getValidMoveTilePtrs(*selectedPiece, board.board)) {
         tile->shape.setFillColor(sf::Color::Red);
     }
 }
@@ -17,7 +17,7 @@ void handleMouseClick(Chess::Piece*& selectedPiece, Chess::Board& board, const s
     // If so, move it to that tile
     // Else, check if a piece was clicked, and if one was, make it the selected piece
     if (selectedPiece) {
-        for (auto& tilePtr : selectedPiece->getValidMoveTilePtrs(board.board)) {
+        for (auto& tilePtr : Chess::MoveLogic::getValidMoveTilePtrs(*selectedPiece, board.board)) {
             if (tilePtr->shape.getGlobalBounds().contains(mouseCoords)) {
                 board.resetColors();
                 board.movePieceToTile(selectedPiece, tilePtr);
@@ -47,7 +47,6 @@ int main() {
         std::cout << "Failed to load sprite sheet\n";
         return 1;
     }
-
 
     Chess::Board board(windowDimensions.x / 8);
     board.setPieces(spriteSheet);    
