@@ -29,7 +29,7 @@ namespace Chess {
     }
 
     std::vector<Piece *> Board::setPieces(const sf::Texture& spriteSheet) {
-        std::vector<Piece *> pieces;
+        //std::vector<Piece *> pieces;
         int backRankPiecesOrder[8] = {
             Chess::ROOK, Chess::KNIGHT, Chess::BISHOP, Chess::QUEEN,
             Chess::KING, Chess::BISHOP, Chess::KNIGHT, Chess::ROOK
@@ -60,6 +60,33 @@ namespace Chess {
 
         }
         piecePtr.moveToTile(tilePtr);
+    }
+
+    void Board::clearHighlights() {
+
+        for (auto& row : board) {
+            for (auto& tile : row) {
+                tile.shape.setFillColor(tile.getNormalColor());
+            }
+        }
+
+    }
+
+    void Board::draw(sf::RenderWindow & window) {
+
+        // Draw the chess board
+        for (auto row : board) { // TODO this should be a method inside board
+            for (auto tile : row) {
+                window.draw(tile.shape);
+            }
+        }
+        // Draw the pieces
+        for (auto piece : pieces) {
+
+            window.draw(piece->sprite);
+
+        }
+
     }
 
 }

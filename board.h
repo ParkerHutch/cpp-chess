@@ -13,6 +13,8 @@ namespace Chess {
 
         std::array<std::array<Tile, 8>, 8> board;
 
+        std::vector<Piece*> pieces;
+
         Board();
         Board(float sideLength);
 
@@ -20,5 +22,8 @@ namespace Chess {
         
         void movePieceToTile(Chess::Tile& tilePtr, Chess::Piece& piecePtr, std::vector<Chess::Piece*>& pieces);
 
+        void clearHighlights();
+
+        void draw(sf::RenderWindow & window);
     };
 }
