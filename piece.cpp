@@ -31,16 +31,15 @@ namespace Chess {
     }
 
     void Piece::moveToTile(Tile& tile) {
+        // Reset the tile that the piece is currently on to its default state
         this->tilePtr->piecePtr = nullptr;
         this->tilePtr->shape.setFillColor(this->tilePtr->getNormalColor());
         
-        if (tile.piecePtr != nullptr) {
-            // TODO should delete the piece ptr here to make sure memory isn't getting leaked (I think?)
-            delete tile.piecePtr;
-        }
-        
+        // Make the piece and its new tile point to each other in the respective fields
         tile.piecePtr = this;
         this->tilePtr = &tile;
+
+        // Reposition the piece's sprite
         this->sprite.setPosition(tile.shape.getPosition());
     }
 

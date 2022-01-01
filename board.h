@@ -17,6 +17,8 @@ namespace Chess {
         Board(float sideLength);
 
         std::vector<Piece *> setPieces(const sf::Texture& spriteSheet);
+        
+        void movePieceToTile(Chess::Tile& tilePtr, Chess::Piece& piecePtr, std::vector<Chess::Piece*>& pieces);
 
     };
 }

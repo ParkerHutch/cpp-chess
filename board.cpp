@@ -44,4 +44,22 @@ namespace Chess {
         return pieces;
     }
 
+    void Board::movePieceToTile(Chess::Tile& tilePtr, Chess::Piece& piecePtr, std::vector<Chess::Piece*>& pieces) {
+        if (tilePtr.piecePtr) {
+
+            if (tilePtr.piecePtr->color != piecePtr.color) {
+
+                // Remove the conquered piece from the game
+
+                Chess::Piece* conqueredPiece = tilePtr.piecePtr;
+                auto pieceIndex = std::find(pieces.begin(), pieces.end(), conqueredPiece);
+                pieces.erase(pieceIndex);
+                delete conqueredPiece;
+
+            }
+
+        }
+        piecePtr.moveToTile(tilePtr);
+    }
+
 }
