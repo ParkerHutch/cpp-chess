@@ -9,7 +9,7 @@
 
 namespace Chess {
 
-    Piece::Piece(bool color) {
+    Piece::Piece(const bool color) {
         this->color = color;
         this->tilePtr = 0;
         this->pieceType = PAWN;
@@ -42,6 +42,12 @@ namespace Chess {
 
         // Reposition the piece's sprite
         this->sprite.setPosition(tile.shape.getPosition());
+    }
+
+    void Piece::draw(sf::RenderWindow& window) const {
+
+        window.draw(sprite);
+
     }
 
     
@@ -109,7 +115,7 @@ namespace Chess {
 
     }
     // TODO can I make this work as a list of pointers? Would probably have to change board's array to a list of Tile *
-    std::vector<sf::Vector2i> Piece::getValidMoveCoordinates(const std::array<std::array<Tile, 8>, 8>& board) const { // TODO board is const, method is const
+    std::vector<sf::Vector2i> Piece::getValidMoveCoordinates(const std::array<std::array<Tile, 8>, 8>& board) const {
         std::vector<sf::Vector2i> results;
         sf::Vector2i currentPosition = this->tilePtr->boardPosition;
         switch (this->pieceType) {

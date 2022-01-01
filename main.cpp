@@ -22,9 +22,14 @@ int main() {
         ;// TODO handle error here (maybe texture.create(200, 200)?)
     }
 
+    
+
+
     Chess::Board board(windowDimensions.x / 8);
     board.setPieces(spriteSheet);    
-
+    
+    std::cout << "size of window: " << sizeof(board.board) << "\n"; // TODO this board uses a ton of memory, move it to the heap
+    
     while (window.isOpen()) {
 
         sf::Event event;
@@ -38,8 +43,8 @@ int main() {
                     // If a piece is selected, check if one of its move options was clicked
                     // If so, move it to that tile
 
-                    for (auto tileCoords : board.pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
-                        auto& validMoveTile = board.board[tileCoords.x][tileCoords.y];
+                    for (auto &tileCoords : board.pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
+                        auto &validMoveTile = board.board[tileCoords.x][tileCoords.y];
                         if (validMoveTile.shape.getGlobalBounds().contains(mouseCoords)) {
                             
                             board.clearHighlights();
@@ -57,7 +62,7 @@ int main() {
 
                             selectedPieceIndex = i;
                             board.pieces[selectedPieceIndex]->tilePtr->shape.setFillColor(sf::Color::Green);
-                            for (auto tileCoords : board.pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
+                            for (auto &tileCoords : board.pieces[selectedPieceIndex]->getValidMoveCoordinates(board.board)) {
                                 board.board[tileCoords.x][tileCoords.y].shape.setFillColor(sf::Color::Red);
                             }
 

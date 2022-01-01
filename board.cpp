@@ -6,7 +6,7 @@
 
 namespace Chess {
 
-    Board::Board(float sideLength) {
+    Board::Board(const float sideLength) {
         float tileSideLength = sideLength / 8;
 
         for (int rowIndex = 0; rowIndex < board.size(); ++rowIndex) {
@@ -56,8 +56,8 @@ namespace Chess {
 
     void Board::clearHighlights() {
 
-        for (auto& row : board) {
-            for (auto& tile : row) {
+        for (auto &row : board) {
+            for (auto &tile : row) {
                 tile.shape.setFillColor(tile.getNormalColor());
             }
         }
@@ -66,14 +66,14 @@ namespace Chess {
 
     void Board::draw(sf::RenderWindow & window) const {
 
-        for (auto row : board) { 
-            for (auto tile : row) {
+        for (auto &row : board) { 
+            for (auto &tile : row) {
                 window.draw(tile.shape);
             }
         }
 
-        for (auto piece : pieces) {
-            window.draw(piece->sprite);
+        for (auto &piece : pieces) {
+            piece->draw(window);
         }
 
     }
