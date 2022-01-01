@@ -37,15 +37,16 @@ namespace Chess {
         Tile* tilePtr; // the Tile this piece occupies
 
         Piece(const bool color);
-        Piece(Tile& tile, int color, const int pieceType);
-        Piece(Tile& tile, int color, const int pieceType, const sf::Texture& spriteSheet);
+        Piece(Tile * initialTilePtr, const int color, const int pieceType);
+        Piece(Tile * initialTilePtr, const int color, const int pieceType, const sf::Texture& spriteSheet);
 
 
-        bool boardPositionOccupiedByEnemy(const sf::Vector2i position, const std::array<std::array<Tile, 8>, 8>& board) const;
+        bool boardPositionOccupiedByEnemy(const sf::Vector2i position, const std::array<std::array<Tile *, 8>, 8>& board) const;
 
-        std::vector<sf::Vector2i> getValidMoveCoordinates(const std::array<std::array<Tile, 8>, 8>& board) const;
+        std::vector<Tile *> getValidMoveTilePtrs(const std::array<std::array<Tile*, 8>, 8>& board) const;
 
-        void moveToTile(Tile& tile);
+
+        void moveToTile(Tile * nextTilePtr);
 
         void draw(sf::RenderWindow& window) const;
         

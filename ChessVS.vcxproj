@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="piece.h" />
     <ClInclude Include="tile.h" />
   </ItemGroup>

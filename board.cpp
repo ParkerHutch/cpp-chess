@@ -11,8 +11,8 @@ namespace Chess {
 
         for (int rowIndex = 0; rowIndex < board.size(); ++rowIndex) {
             for (int colIndex = 0; colIndex < board[rowIndex].size(); ++colIndex) {
-                board[rowIndex][colIndex] = Tile(sideLength, rowIndex, colIndex);
-                board[rowIndex][colIndex].shape.setPosition(rowIndex * sideLength, colIndex * sideLength);
+                board[rowIndex][colIndex] = new Tile(sideLength, rowIndex, colIndex);
+                board[rowIndex][colIndex]->shape.setPosition(rowIndex * sideLength, colIndex * sideLength);
             }
         }
 
@@ -33,17 +33,17 @@ namespace Chess {
     }
 
     bool Board::boardPositionOccupied(const sf::Vector2i position) const {
-        return board[position.x][position.y].piecePtr != nullptr;
+        return board[position.x][position.y]->piecePtr != nullptr;
     }
 
-    void Board::movePieceToTile(Chess::Piece& piecePtr, Chess::Tile& tilePtr) {
-        if (tilePtr.piecePtr) {
+    void Board::movePieceToTile(Chess::Piece* piecePtr, Chess::Tile* tilePtr) {
+        if (tilePtr->piecePtr) {
 
-            if (tilePtr.piecePtr->color != piecePtr.color) {
+            if (tilePtr->piecePtr->color != piecePtr->color) {
 
                 // Remove the conquered piece from the game
 
-                Chess::Piece* conqueredPiece = tilePtr.piecePtr;
+                Chess::Piece* conqueredPiece = tilePtr->piecePtr;
                 auto pieceIndex = std::find(pieces.begin(), pieces.end(), conqueredPiece);
                 pieces.erase(pieceIndex);
                 delete conqueredPiece;
@@ -51,14 +51,14 @@ namespace Chess {
             }
 
         }
-        piecePtr.moveToTile(tilePtr);
+        piecePtr->moveToTile(tilePtr);
     }
 
-    void Board::clearHighlights() {
+    void Board::resetColors() {
 
         for (auto &row : board) {
             for (auto &tile : row) {
-                tile.shape.setFillColor(tile.getNormalColor());
+                tile->shape.setFillColor(tile->getNormalColor());
             }
         }
 
@@ -68,7 +68,7 @@ namespace Chess {
 
         for (auto &row : board) { 
             for (auto &tile : row) {
-                window.draw(tile.shape);
+                window.draw(tile->shape);
             }
         }
 

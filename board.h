@@ -10,7 +10,7 @@ namespace Chess {
 
     public:
         
-        std::array<std::array<Tile, 8>, 8> board; // The 8x8 board of Tiles
+        std::array<std::array<Tile *, 8>, 8> board; // The 8x8 board of Tiles
 
         std::vector<Piece*> pieces; // All pieces currently on the board
 
@@ -46,13 +46,13 @@ namespace Chess {
         * @param piecePtr the piece to move
         * @param tilePtr the tile to move the piece to.
         */
-        void movePieceToTile(Chess::Piece& piecePtr, Chess::Tile& tilePtr);
+        void movePieceToTile(Chess::Piece * piecePtr, Chess::Tile * tilePtr);
 
         /**
         * Resets the fill color of all tiles to their default fill color. This has the effect of
         * removing any user piece or tile selection effects.
         */
-        void clearHighlights();
+        void resetColors();
 
         /**
         * Draws the board and its pieces on the given window. 
