@@ -14,9 +14,13 @@ namespace Chess {
         case PAWN:
         {
             results = getPawnPossibleMovePtrs(piece, board);
-
+            break;
         }
-        break;
+        case KING:
+        {
+            results = getKingPossibleMovePtrs(piece, board);
+            break;
+        }
 
         default:
             std::cout << "Selected piece has no type so default case is happening, bad\n";
@@ -53,6 +57,52 @@ namespace Chess {
 
         return results;
 
+    }
+
+    std::vector<Tile*> MoveLogic::getKingPossibleMovePtrs(const Piece& king, const std::array<std::array<Tile*, 8>, 8>& board) {
+
+        std::vector<Tile*> results;
+        sf::Vector2i currentPosition = king.tilePtr->boardPosition;
+
+        sf::Vector2i forwards(currentPosition.x, currentPosition.y + 1 - 2 * king.color);
+
+        for (int x = -1; x <= 1; x++) {
+
+            for (int y = -1; y <= 1; y++) {
+
+                sf::Vector2i checkPosition(currentPosition.x + x, currentPosition.y + y);
+                // Make sure prospective tile is within the bounds of the board
+                if (checkPosition.x >= 0 && checkPosition.x <= 7 && checkPosition.y >= 0 && checkPosition.y <= 7 && currentPosition != checkPosition) {
+                    Tile* checkTilePtr = board[checkPosition.x][checkPosition.y];
+                    if (!checkTilePtr->piecePtr || king.tileOccupiedByEnemy(checkTilePtr)) {
+
+                        results.push_back(checkTilePtr);
+                    }
+                }
+            }
+        }
+        
+        return results;
+    }
+
+    std::vector<Tile*> MoveLogic::getRookPossibleMovePtrs(const Piece& pawn, const std::array<std::array<Tile*, 8>, 8>& board)
+    {
+        return std::vector<Tile*>();
+    }
+
+    std::vector<Tile*> MoveLogic::getKnightPossibleMovePtrs(const Piece& pawn, const std::array<std::array<Tile*, 8>, 8>& board)
+    {
+        return std::vector<Tile*>();
+    }
+
+    std::vector<Tile*> MoveLogic::getBishopPossibleMovePtrs(const Piece& bishop, const std::array<std::array<Tile*, 8>, 8>& board)
+    {
+        return std::vector<Tile*>();
+    }
+
+    std::vector<Tile*> MoveLogic::getQueenPossibleMovePtrs(const Piece& queen, const std::array<std::array<Tile*, 8>, 8>& board)
+    {
+        return std::vector<Tile*>();
     }
 
     

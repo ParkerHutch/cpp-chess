@@ -26,6 +26,16 @@ namespace Chess {
         */
 		static std::vector<Tile*> getPawnPossibleMovePtrs(const Piece& pawn, const std::array<std::array<Tile*, 8>, 8>& board);
 
+        static std::vector<Tile*> getKingPossibleMovePtrs(const Piece& king, const std::array<std::array<Tile*, 8>, 8>& board);
+
+        static std::vector<Tile*> getRookPossibleMovePtrs(const Piece& rook, const std::array<std::array<Tile*, 8>, 8>& board);
+
+        static std::vector<Tile*> getKnightPossibleMovePtrs(const Piece& knight, const std::array<std::array<Tile*, 8>, 8>& board);
+
+        static std::vector<Tile*> getBishopPossibleMovePtrs(const Piece& bishop, const std::array<std::array<Tile*, 8>, 8>& board);
+
+        static std::vector<Tile*> getQueenPossibleMovePtrs(const Piece& queen, const std::array<std::array<Tile*, 8>, 8>& board);
+
 	public:
 		static std::vector<Tile*> getValidMoveTilePtrs(const Piece & piece, const std::array<std::array<Tile*, 8>, 8>& board);
 
