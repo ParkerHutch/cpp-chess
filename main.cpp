@@ -43,7 +43,7 @@ int main() {
                             
                             board.clearHighlights();
 
-                            board.movePieceToTile(validMoveTile, *board.pieces[selectedPieceIndex], board.pieces);
+                            board.movePieceToTile(*board.pieces[selectedPieceIndex], validMoveTile);
                             
                             selectedPieceIndex = -1;
                         }

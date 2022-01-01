@@ -9,12 +9,12 @@ namespace Chess {
 
     class Tile {
     public:
-        Piece* piecePtr = nullptr; // The piece on this tile, if there is one // TODO this is probably not needed
+        Piece* piecePtr = nullptr; // The piece on this tile, if there is one
         sf::Vector2i boardPosition;
         sf::RectangleShape shape;
 
         Tile();
         Tile(float sideLength, int row, int col);
-        sf::Color getNormalColor();
+        sf::Color getNormalColor() const;
     };
 }

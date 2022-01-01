@@ -5,25 +5,55 @@
 #include "tile.h"
 
 namespace Chess {
-    class Tile;
 
     class Board {
 
     public:
-
-        std::array<std::array<Tile, 8>, 8> board;
-
-        std::vector<Piece*> pieces;
-
-        Board();
-        Board(float sideLength);
-
-        std::vector<Piece *> setPieces(const sf::Texture& spriteSheet);
         
-        void movePieceToTile(Chess::Tile& tilePtr, Chess::Piece& piecePtr, std::vector<Chess::Piece*>& pieces);
+        std::array<std::array<Tile, 8>, 8> board; // The 8x8 board of Tiles
 
+        std::vector<Piece*> pieces; // All pieces currently on the board
+
+        /**
+        * Creates an 8x8 board of alternatingly colored square tiles whose side lengths correspond to the 
+        * given side length parameter.
+        * 
+        * @param sideLength the side length for each square tile on the board
+        */
+        Board(const float sideLength);
+
+        /**
+        * @brief Creates pointers to the standard chess board pieces and stores them in a list.
+        * 
+        * Pointers to all chess pieces in their standard configurations are created and added to 
+        * the pieces list. The spriteSheet parameter is passed to the Piece constructors for loading
+        * of their sprites.
+        * 
+        * @param spriteSheet a sprite sheet of chess piece sprites
+        */
+        void setPieces(const sf::Texture& spriteSheet);
+        
+        /**
+        * @brief moves a piece to a tile, removing the piece that was previously there if it exists.
+        * 
+        * Moves the Piece pointed to by piecePtr to the tile pointed to by tilePtr. If tilePtr had a piece
+        * it pointed to, that pointer is deleted, and the piece is removed from the board's list of pieces.
+        * The tile pointed to by tilePtr is assumed to be a valid move location for the Piece.
+        * 
+        * @param piecePtr the piece to move
+        * @param tilePtr the tile to move the piece to.
+        */
+        void movePieceToTile(Chess::Piece& piecePtr, Chess::Tile& tilePtr);
+
+        /**
+        * Resets the fill color of all tiles to their default fill color. This has the effect of
+        * removing any user piece or tile selection effects.
+        */
         void clearHighlights();
 
-        void draw(sf::RenderWindow & window);
+        /**
+        * Draws the board and its pieces on the given window. 
+        */
+        void draw(sf::RenderWindow & window) const;
     };
 }

@@ -15,7 +15,7 @@ namespace Chess {
         //this->shape.setOutlineThickness(2);
     }
 
-    sf::Color Tile::getNormalColor() {
+    sf::Color Tile::getNormalColor() const {
         return (boardPosition.x + boardPosition.y) % 2 == 0 ? sf::Color::White : sf::Color::Black;
     }
 }
