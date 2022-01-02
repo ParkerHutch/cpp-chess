@@ -58,7 +58,7 @@ namespace Chess {
         sf::Vector2i currentPosition = pawn.tilePtr->boardPosition;
 
         sf::Vector2i forwards(currentPosition.x, currentPosition.y + 1 - 2 * pawn.color);
-        if (forwards.y >= 0 && forwards.y <= 7) {
+        if (isInside(forwards)) {
             if (board[forwards.x][forwards.y]->piecePtr == nullptr) {
                 results.push_back(board[forwards.x][forwards.y]);
             }
@@ -105,7 +105,7 @@ namespace Chess {
 
                 sf::Vector2i checkPosition(currentPosition.x + x, currentPosition.y + y);
                 // Make sure prospective tile is within the bounds of the board
-                if (checkPosition.x >= 0 && checkPosition.x <= 7 && checkPosition.y >= 0 && checkPosition.y <= 7 && currentPosition != checkPosition) {
+                if (isInside(checkPosition) && currentPosition != checkPosition) {
                     Tile* checkTilePtr = board[checkPosition.x][checkPosition.y];
                     if (!checkTilePtr->piecePtr || king.tileOccupiedByEnemy(checkTilePtr)) {
 
@@ -175,8 +175,7 @@ namespace Chess {
         std::array<int, 8> yShifts = {  1, -1,  2, -2, 2, -2, 1, -1 };
         for (int i = 0; i < 8; i++) {
             sf::Vector2i checkPosition(currentPosition.x + xShifts[i], currentPosition.y + yShifts[i]);
-            if (checkPosition.x >= 0 && checkPosition.x <= 7 && checkPosition.y >= 0
-                && checkPosition.y <= 7 && !knight.tileOccupiedByFriendly(board[checkPosition.x][checkPosition.y])) {
+            if (isInside(checkPosition) && !knight.tileOccupiedByFriendly(board[checkPosition.x][checkPosition.y])) {
                 results.push_back(board[checkPosition.x][checkPosition.y]);
             }
         }
