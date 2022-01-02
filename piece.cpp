@@ -16,14 +16,14 @@ namespace Chess {
         this->pieceType = PAWN;
     }
 
-    Piece::Piece(Tile * initialTilePtr, const int color, const int pieceType) {
+    Piece::Piece(Tile * initialTilePtr, const bool color, const int pieceType) {
         this->color = color;
         this->tilePtr = initialTilePtr;
         initialTilePtr->piecePtr = this;
         this->pieceType = pieceType;
     }
 
-    Piece::Piece(Tile * initialTilePtr, const int color, const int pieceType, const sf::Texture& spriteSheet) {
+    Piece::Piece(Tile * initialTilePtr, const bool color, const int pieceType, const sf::Texture& spriteSheet) {
         this->color = color;
         this->tilePtr = initialTilePtr;
         initialTilePtr->piecePtr = this;

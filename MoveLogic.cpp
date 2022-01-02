@@ -1,7 +1,6 @@
 #include "movelogic.h"
 #include "piece.h"
 #include "tile.h"
-#include <iostream>
 #include <array>
 #include <cmath>
 
@@ -47,7 +46,6 @@ namespace Chess {
             break;
         }
         default:
-            std::cout << "Selected piece has no type so default case is happening, bad\n";
             break;
         }
         return results;
@@ -73,7 +71,6 @@ namespace Chess {
                 if (board[forwards.x][forwards.y]->piecePtr == nullptr) {
                     results.push_back(board[forwards.x][forwards.y]);
                 }
-
             }
 
             if (currentPosition.x > 0) {
@@ -90,8 +87,6 @@ namespace Chess {
                 }
             }
         }
-
-        
 
         return results;
 
@@ -248,7 +243,5 @@ namespace Chess {
         bishopAndRookResults.insert(bishopAndRookResults.end(), rookResults.begin(), rookResults.end());
         return bishopAndRookResults;
     }
-
-    
 
 }

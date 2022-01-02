@@ -4,7 +4,6 @@
 #include "tile.h"
 
 namespace Chess {
-	class Tile;
 
 	class MoveLogic {
 

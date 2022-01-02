@@ -3,9 +3,8 @@
 #include <iostream>
 #include "piece.h"
 #include "MoveLogic.h"
-#include <cmath>
 
-int turn = Chess::WHITE;
+bool turn = Chess::WHITE;
 
 void highlightPossibleMoves(Chess::Board& board, Chess::Piece*& selectedPiece) {
     board.resetColors();
@@ -25,7 +24,7 @@ void handleMouseClick(Chess::Piece*& selectedPiece, Chess::Board& board, const s
                 board.resetColors();
                 board.movePieceToTile(selectedPiece, tilePtr);
                 selectedPiece = nullptr;
-                turn = abs(1-turn);
+                turn = !turn;
             }
         }
     }

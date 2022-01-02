@@ -28,14 +28,14 @@ namespace Chess {
         
 
     public:
-        int color;
+        bool color;
         int pieceType;
         sf::Sprite sprite; // TODO make this a pointer? Might cut down on stack space usage
         Tile* tilePtr; // the Tile this piece occupies
 
         Piece(const bool color);
-        Piece(Tile * initialTilePtr, const int color, const int pieceType);
-        Piece(Tile * initialTilePtr, const int color, const int pieceType, const sf::Texture& spriteSheet);
+        Piece(Tile * initialTilePtr, const bool color, const int pieceType);
+        Piece(Tile * initialTilePtr, const bool color, const int pieceType, const sf::Texture& spriteSheet);
 
         bool tileOccupiedByEnemy(const Tile* tilePtr) const;
         bool tileOccupiedByFriendly(const Tile* tilePtr) const;
