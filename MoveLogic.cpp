@@ -1,4 +1,4 @@
-#include "MoveLogic.h"
+#include "movelogic.h"
 #include "piece.h"
 #include "tile.h"
 #include <iostream>
@@ -65,9 +65,10 @@ namespace Chess {
                 results.push_back(board[forwards.x][forwards.y]);
             }
 
-            if (currentPosition.y == 1 || currentPosition.y == 6) {
+            if ((currentPosition.y == 1 && pawn.color == Chess::WHITE) || 
+                (currentPosition.y == 6 && pawn.color == Chess::BLACK)) {
 
-                forwards.y++;
+                forwards.y += 1 - 2 * pawn.color;
 
                 if (board[forwards.x][forwards.y]->piecePtr == nullptr) {
                     results.push_back(board[forwards.x][forwards.y]);

@@ -27,7 +27,7 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MoveLogic.cpp">
+    <ClCompile Include="movelogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MoveLogic.h">
+    <ClInclude Include="movelogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
