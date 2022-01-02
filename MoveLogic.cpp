@@ -64,6 +64,17 @@ namespace Chess {
             if (board[forwards.x][forwards.y]->piecePtr == nullptr) {
                 results.push_back(board[forwards.x][forwards.y]);
             }
+
+            if (currentPosition.y == 1 || currentPosition.y == 6) {
+
+                forwards.y++;
+
+                if (board[forwards.x][forwards.y]->piecePtr == nullptr) {
+                    results.push_back(board[forwards.x][forwards.y]);
+                }
+
+            }
+
             if (currentPosition.x > 0) {
                 sf::Vector2i leftDiagonal(currentPosition.x - 1, currentPosition.y + 1 - 2 * pawn.color);
                 if (pawn.tileOccupiedByEnemy(board[leftDiagonal.x][leftDiagonal.y])) {
@@ -78,6 +89,8 @@ namespace Chess {
                 }
             }
         }
+
+        
 
         return results;
 
@@ -228,7 +241,6 @@ namespace Chess {
     }
 
     std::vector<Tile*> MoveLogic::getQueenPossibleMovePtrs(const Piece& queen, const std::array<std::array<Tile*, 8>, 8>& board) {
-
         std::vector<Tile *> bishopAndRookResults = getBishopPossibleMovePtrs(queen, board);
         std::vector<Tile *> rookResults = getRookPossibleMovePtrs(queen, board);
 
